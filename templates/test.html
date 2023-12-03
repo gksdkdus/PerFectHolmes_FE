@@ -1,0 +1,63 @@
+<script type="text/javascript"
+src="https://openapi.map.naver.com/openapi/v3/maps.js?clientId=2yf3rqafqw"></script>
+<div id="map" style="width:100%;height:600px;"></div>
+<style>
+    .iw_inner {padding:10px}
+    .iw_inner h3 {font-size: 18px; padding-bottom: 7px}
+</style>
+<script id="code">
+    //function get_pointer (해당주소,대상지도 id,title) {
+    function get_pointer (adress,getid,title) {
+        naver.maps.Service.geocode({
+            address: adress
+        }, function(status, response) {
+            if (status !== naver.maps.Service.Status.OK) {
+                //return alert('Something wrong!');
+                console.log('주소에러');
+            }
+ 
+            var result = response.result, // 검색 결과의 컨테이너
+                items = result.items; // 검색 결과의 배열
+ 
+            // do Something
+            var x = eval(items[0].point.x);
+            var y = eval(items[0].point.y);
+ 
+            var HOME_PATH = window.HOME_PATH || '.';
+ 
+            var cityhall = new naver.maps.LatLng(y, x),
+                map = new naver.maps.Map('map', {
+                    center: cityhall.destinationPoint(0, 500),
+                    zoom: 10
+                }),
+                marker = new naver.maps.Marker({
+                    map: map,
+                    position: cityhall
+                });
+ 
+            var contentString = [
+                '<div class="iw_inner">',
+                '   <h3>'+title+'</h3>',
+                '   <p>'+adress+'</p>',
+                '</div>'
+            ].join('');
+ 
+            var infowindow = new naver.maps.InfoWindow({
+                content: contentString
+            });
+ 
+            naver.maps.Event.addListener(marker, "click", function(e) {
+                if (infowindow.getMap()) {
+                    infowindow.close();
+                } else {
+                    infowindow.open(map, marker);
+                }
+            });
+ 
+            infowindow.open(map, marker);
+        });
+    }
+ 
+    /* 마커중복 사용안됨 */
+    get_pointer('대전 중구','map','대전본점');
+</script>

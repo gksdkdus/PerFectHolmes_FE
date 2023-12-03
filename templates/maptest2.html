@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=2yf3rqafqw"></script>
+    <meta charset="utf-8"/>
+    <title>정보창띄우기</title>
+</head>
+<body>
+    <div id="map" style="width:100%; height:800px;"></div>
+    <script>
+        var cityhall = new naver.maps.LatLng(34.7995, 126.3802),
+            map = new naver.maps.Map('map', {
+                center: cityhall.destinationPoint(0, 500),
+                zoom: 16
+            }),
+            marker = new naver.maps.Marker({
+                map: map,
+                position: cityhall
+            });
+
+        // 정보 창 만들기
+        var contentString = [
+                '<div class="iw_inner">',
+                '   <h3>목포대성초등학교</h3>',
+                '   <p>전라남도 목포시 대성동 212<br />',
+                '       061-245-4901 | 초등학교 <br />',
+                '   </p>',
+                '</div>'
+            ].join('');
+
+        var infowindow = new naver.maps.InfoWindow({
+            content: contentString
+        });
+
+        // 마커 호버 이벤트
+        naver.maps.Event.addListener(marker, "mouseover", function(e) {
+            infowindow.open(map, marker);
+        });
+
+        // 마커 아웃 이벤트
+        naver.maps.Event.addListener(marker, "mouseout", function(e) {
+            infowindow.close();
+        });
+
+    </script>
+</body>
+</html>
