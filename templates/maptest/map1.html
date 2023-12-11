@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Naver Map API Example</title>
+    <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=2yf3rqafqw"></script>
+    <style>
+        #map {
+            width: 100%;
+            height: 400px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Naver Map API Example</h1>
+    <div id="map"></div>
+
+    <script>
+        // 네이버지도 초기화
+        var map = new naver.maps.Map('map', {
+            center: new naver.maps.LatLng(37.5665, 126.9780), // 초기 지도 중심 좌표 (서울)
+            zoom: 10, // 초기 지도 확대 레벨
+        });
+
+        // 주소를 검색하여 마커를 생성하는 함수
+        function searchAddressToMarker(address) {
+            naver.maps.Service.geocode({
+                address: address
+            }, function(status, response) {
+                if (status === naver.maps.Service.Status.OK) {
+                    var result = response.result;
+                    var point = new naver.maps.Point(result.items[0].point.x, result.items[0].point.y);
+                    var marker = new naver.maps.Marker({
+                        position: point,
+                        map: map
+                    });
+                    map.setCenter(point); // 검색된 주소로 지도 중심 이동
+                } else {
+                    alert('주소를 찾을 수 없습니다.');
+                }
+            });
+        }
+
+        // 사용자가 주소를 검색하는 함수
+        function searchAddress() {
+            var address = prompt('검색할 주소를 입력하세요.');
+            if (address) {
+                searchAddressToMarker(address);
+            }
+        }
+
+        // 사용자가 직접 주소를 검색할 수 있는 버튼 추가
+        var searchButton = document.createElement('button');
+        searchButton.textContent = '주소 검색';
+        searchButton.addEventListener('click', searchAddress);
+        document.body.appendChild(searchButton);
+    </script>
+</body>
+</html>
