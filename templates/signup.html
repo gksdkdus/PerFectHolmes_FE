@@ -68,11 +68,6 @@
             alert('비밀번호는 8자리 이상이어야 합니다.');
             return;
         }
-        
-        if (password !== password2) {
-            alert('입력한 비밀번호가 일치하지 않습니다.');
-            return;
-        }
 
         $.ajax({
             url: "http://127.0.0.1:8000/auth/signup/",
@@ -100,22 +95,6 @@
         })
     }
 
-    function checkPwdMath() {
-        let password = $('#password').val();
-        let password2 = $('#password2').val();
-
-        if(password !== password2) {
-            $('#pwdMismatch').text('비밀번호가 일치하지 않습니다.');
-        } else {
-            $('#pwdMismatch').text('');
-        }
-    }
-
-    $('#password, #password2').on('input', function() {
-        checkPwdMath();
-    })
-
-
     $('#signup_submit').click(function () {
         signup()
     });
@@ -125,10 +104,6 @@
             $('#signup_submit').click();
         }
     });
-
-    window.onpopstate = function(event) {
-        location.reload();
-    };
 
 </script>
 
