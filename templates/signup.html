@@ -69,6 +69,11 @@
             return;
         }
 
+        if (password !== password2) {
+            alert('입력한 비밀번호가 일치하지 않습니다.');
+            return;
+        }
+
         $.ajax({
             url: "http://127.0.0.1:8000/auth/signup/",
             dataType: "json",
