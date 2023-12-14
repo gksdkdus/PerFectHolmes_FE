@@ -4,58 +4,30 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=2yf3rqafqw&submodules=geocoder"></script>
-    <script  src="http://code.jquery.com/jquery-latest.min.js"></script>
-	<script type="text/javascript" src="http://code.jquery.com/jquery-2.2.4.min.js"></script>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
     <title>메인 페이지</title>
 </head>
 <body>
-     <!-- 주소 검색 입력 및 버튼 -->
     <div class="search">
         <input id="address" type="text" placeholder="검색할 주소">
         <input id="submit" type="button" value="주소검색">
     </div>
 
-    <!-- 지도 컨테이너 -->
     <div id="map" style="width:100%; height:700px;"></div>
 </body>
 <script>
-    // 목포 기본 지도
-    function selectMapList() {
+     // 목포를 기본 지도로
+     function selectMapList() {
         var map = new naver.maps.Map('map', {
             center: new naver.maps.LatLng(34.8026, 126.3898), 
             zoom: 14,
-            mapTypeControl: true
         });
     }
 
-    // 경도, 위도 지도 이동
-    function moveMap(lng, lat) {
-        var mapOptions = {
-                center: new naver.maps.LatLng(lng, lat),
-                zoom: 15,
-                mapTypeControl: true
-            };
-            var map = new naver.maps.Map('map', mapOptions);
-            var marker = new naver.maps.Marker({
-                position: new naver.maps.LatLng(lng, lat),
-                map: map
-            });
-    }
+    // 지도를 그려주는 함수
+    selectMapList();
 
-    // 주소 검색 버튼 이벤트
-    $('#address').on('keydown', function(e) {
-        var keyCode = e.which;
-        if (keyCode === 13) { 
-            searchAddressToCoordinate($('#address').val());
-        }
-    });
-    $('#submit').on('click', function(e) {
-        e.preventDefault();
-        searchAddressToCoordinate($('#address').val());
-    });
-    naver.maps.Event.once(map, 'init_stylemap', initGeocoder);
-
-    // 사용자가 검색한 주소 좌표로 변환
+    // 검색한 주소의 정보를 insertAddress 함수로 넘겨준다
     function searchAddressToCoordinate(address) {
         naver.maps.Service.geocode({
             query: address
@@ -66,6 +38,7 @@
             if (response.v2.meta.totalCount === 0) {
                 return alert('올바른 주소를 입력해주세요.');
             }
+            
             var htmlAddresses = [],
                 item = response.v2.addresses[0],
                 point = new naver.maps.Point(item.x, item.y);
@@ -84,19 +57,37 @@
         });
     }
 
-    // 검색한 주소로 지도 이동 및 마커
+    // 주소 검색 버튼 이벤트
+    $('#address').on('keydown', function(e) {
+        var keyCode = e.which;
+        if (keyCode === 13) { 
+            searchAddressToCoordinate($('#address').val());
+        }
+    });
+    $('#submit').on('click', function(e) {
+        e.preventDefault();
+        searchAddressToCoordinate($('#address').val());
+    });
+    naver.maps.Event.once(map, 'init_stylemap', initGeocoder);
+
+    
+    // 검색한 주소 지도에 마커 표시
     function insertAddress(address, lat, lng) {
         var map = new naver.maps.Map('map', {
             center: new naver.maps.LatLng(lng, lat),
-            zoom: 14
+            zoom: 15
         });
         var marker = new naver.maps.Marker({
             map: map,
             position: new naver.maps.LatLng(lng, lat),
         });
+
+        sendCoordinatesToServer(lat, lng);
     }
 
-    //  페이지 로드와 동시에 지도를 그려주는 함수
-    selectMapList();
+    // 좌표 전송
+    function sendCoordinatesToServer(lat, lng) {
+  
+    }
 </script>
 </html>

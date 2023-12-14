@@ -10,46 +10,63 @@
     <title>회원가입 페이지</title>
 </head>
 <body>
+<div class="layouta_container">
     <div class="layouta_container">
-        <div class="layouta_container">
-            <div class="box1">
-                
-                <div class="box2">
-                    <img src="/static/img/logo.png" alt="logo">
-                    <div class="welcome_text" dir="auto">회원가입을 위해</div>
-                    <div class="welcome_text" dir="auto">정보를 입력해주세요.</div>            
-                </div>
-                <form>
-                    <div class="text_box">닉네임</div>
-                    <input class="input_nick" type="text" placeholder="Nickname" value="">
-                    <div class="text_box">이름</div>
-                    <input class="input_name" type="password" placeholder="Name" value="">
-                    <div class="text_box">이메일</div>
-                    <input class="input_email" type="text" placeholder="Email" value="">
-                    <div class="text_box">비밀번호</div>
-                    <input class="input_pw" type="password" placeholder="Password" value="">
-                    <button type="submit" class="login_btn">완료</button>
-                </form>
+        <div class="box1">
+
+            <div class="box2">
+                <img src="/static/img/logo.png" alt="logo">
+                <div class="welcome_text" dir="auto">회원가입을 위해</div>
+                <div class="welcome_text" dir="auto">정보를 입력해주세요.</div>
             </div>
+            <form>
+                <div class="text_box">닉네임</div>
+                <input class="input_nick" type="text" id="nickname" placeholder="Nickname" value="">
+                <div class="text_box">이름</div>
+                <input class="input_name" type="name" id="name" placeholder="Name" value="">
+                <div class="text_box">이메일</div>
+                <input class="input_email" type="text" id="email" placeholder="Email" value="">
+                <div class="text_box">비밀번호</div>
+                <input class="input_pw" type="password" id="password" placeholder="Password" value="">
+                <div class="text_box">비밀번호 확인</div>
+                <input class="input_pw" type="password" id="password2" placeholder="Password Check" value="">
+                <button type="signup_submit" class="login_btn">완료</button>
+            </form>
         </div>
-    </div> 
+    </div>
+</div>
 </body>
 
 <script>
-    // 마우스 포커스가 들어오면 placeholder 값을 비움
-    $(document).ready(function() {
-        $('.input_nick, .input_name, .input_email, .input_pw').focus(function() {
+    $(document).ready(function () {
+        $('.input_nick, .input_name, .input_email, .input_pw').focus(function () {
             $(this).attr('placeholder', '');
-        }).blur(function() {
+        }).blur(function () {
             if ($(this).val() === '') {
                 $(this).attr('placeholder', $(this).data('placeholder'));
             }
         });
-    // 페이지 로드 시 각 input의 placeholder 다시 보이게
-        $('.input_nick, .input_name, .input_email, .input_pw').each(function() {
+
+        $('.input_nick, .input_name, .input_email, .input_pw').each(function () {
             $(this).data('placeholder', $(this).attr('placeholder'));
         });
     });
+    $('#signup_submit').click(function () {
+    });
+
+    $(document).keyup(function (event) {
+        if (event.which === 13) {
+        }
+    });
+
+    function signup(){
+        let username = $('#username').val();
+        let name = $('#name').val();
+        let email = $('#email').val();
+        let password = $('#password').val();
+        let password2 = $('#password2').val();
+    }
+
 </script>
-    
+
 </html>
