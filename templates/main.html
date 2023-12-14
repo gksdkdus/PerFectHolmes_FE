@@ -16,18 +16,27 @@
     <div id="map" style="width:100%; height:700px;"></div>
 </body>
 <script>
-     // 목포를 기본 지도로
-     function selectMapList() {
-        var map = new naver.maps.Map('map', {
+    var map;
+    var marker;
+
+    // 목포를 기본 지도로
+    function selectMapList() {
+        map = new naver.maps.Map('map', {
             center: new naver.maps.LatLng(34.8026, 126.3898), 
             zoom: 14,
+        });
+
+        // 지도를 클릭했을 때 이벤트 등록
+        naver.maps.Event.addListener(map, 'click', function(e) {
+            var latlng = e.coord;
+            updateMarker(latlng);
         });
     }
 
     // 지도를 그려주는 함수
     selectMapList();
 
-    // 검색한 주소의 정보를 insertAddress 함수로 넘겨준다
+    // 검색한 주소의 정보를 insertAddress 함수로 
     function searchAddressToCoordinate(address) {
         naver.maps.Service.geocode({
             query: address
@@ -51,9 +60,8 @@
             if (item.englishAddress) {
                 htmlAddresses.push('[영문명 주소] ' + item.englishAddress);
             }
-    
+
             insertAddress(item.roadAddress, item.x, item.y);
-            
         });
     }
 
@@ -70,24 +78,32 @@
     });
     naver.maps.Event.once(map, 'init_stylemap', initGeocoder);
 
-    
     // 검색한 주소 지도에 마커 표시
     function insertAddress(address, lat, lng) {
-        var map = new naver.maps.Map('map', {
-            center: new naver.maps.LatLng(lng, lat),
-            zoom: 15
-        });
-        var marker = new naver.maps.Marker({
-            map: map,
-            position: new naver.maps.LatLng(lng, lat),
-        });
-
+        var latlng = new naver.maps.LatLng(lng, lat);
+        updateMarker(latlng);
+        map.setCenter(latlng);
+        map.setZoom(15);
         sendCoordinatesToServer(lat, lng);
+    }
+
+    // 마커 업데이트
+    function updateMarker(latlng) {
+        if (marker) {
+            // 마커가 이미 존재하면 제거
+            marker.setMap(null);
+        }
+
+        // 새로운 마커 생성
+        marker = new naver.maps.Marker({
+            map: map,
+            position: latlng,
+        });
     }
 
     // 좌표 전송
     function sendCoordinatesToServer(lat, lng) {
-  
+        
     }
 </script>
 </html>
