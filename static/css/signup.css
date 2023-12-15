@@ -34,7 +34,7 @@
     color: #814444;
     font-weight:700
 }
-.input_nick, .input_name, .input_email, .input_pw {
+.input_nick, .input_username, .input_email, .input_pw {
     box-sizing: border-box;
     width: 100%;
     height: 50px;

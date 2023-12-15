@@ -22,8 +22,8 @@
             <form>
                 <div class="text_box">닉네임</div>
                 <input class="input_nick" type="text" id="nickname" placeholder="Nickname" value="">
-                <div class="text_box">이름</div>
-                <input class="input_name" type="text" id="name" placeholder="Name" value="">
+                <div class="text_box">아이디</div>
+                <input class="input_username" type="text" id="username" placeholder="ID" value="">
                 <div class="text_box">이메일</div>
                 <input class="input_email" type="text" id="email" placeholder="Email" value="">
                 <div class="text_box">비밀번호</div>
@@ -39,7 +39,7 @@
 
 <script>
     $(document).ready(function () {
-        $('.input_nick, .input_name, .input_email, .input_pw').focus(function () {
+        $('.input_nick, .input_username, .input_email, .input_pw').focus(function () {
             $(this).attr('placeholder', '');
         }).blur(function () {
             if ($(this).val() === '') {
@@ -47,19 +47,19 @@
             }
         });
 
-        $('.input_nick, .input_name, .input_email, .input_pw').each(function () {
+        $('.input_nick, .input_username, .input_email, .input_pw').each(function () {
             $(this).data('placeholder', $(this).attr('placeholder'));
         });
     });
 
     function signup(){
         let nickname = $('#nickname').val();
-        let name = $('#name').val();
+        let username = $('#username').val();
         let email = $('#email').val();
         let password = $('#password').val();
         let password2 = $('#password2').val();
 
-        if (nickname === '' || name === '' || email === '' || password === '' || password2 === '') {
+        if (nickname === '' || username === '' || email === '' || password === '' || password2 === '') {
             alert('입력값을 모두 채워주세요.');
             return;
         }
@@ -78,7 +78,7 @@
             url: "http://127.0.0.1:8000/auth/signup/",
             dataType: "json",
             data: {
-                username: nickname,
+                username: username,
                 password: password,
                 password2: password2,
                 nickname: nickname,
